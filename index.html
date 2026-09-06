@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script>
+// Everything below is rendered by support.js after React loads from a CDN. If that never happens, show the essentials.
+setTimeout(function () {
+  if (window.__dcContentKeyed) return;
+  document.body.insertAdjacentHTML('afterbegin', '<div style="font-family:system-ui,sans-serif;max-width:640px;margin:80px auto;padding:0 20px;line-height:1.6"><h1 style="font-size:28px;margin:0 0 12px">Consoliae</h1><p>Software engineering studio: AI agents, ML infrastructure, applications and the backend underneath them.</p><p>This page could not finish loading. Write to <a href="mailto:info@consoliae.com">info@consoliae.com</a> and an engineer replies within one working day.</p></div>');
+}, 12000);
+</script>
 </head>
 <body>
+<noscript><div style="font-family:system-ui,sans-serif;max-width:640px;margin:80px auto;padding:0 20px;line-height:1.6"><h1 style="font-size:28px;margin:0 0 12px">Consoliae</h1><p>Software engineering studio: AI agents, ML infrastructure, applications and the backend underneath them.</p><p>This site needs JavaScript. Without it, write to <a href="mailto:info@consoliae.com">info@consoliae.com</a> and an engineer replies within one working day.</p></div></noscript>
 <x-dc>
 <helmet>
 <title>Consoliae — software that survives contact with real users</title>
@@ -16,12 +24,13 @@
 <meta property="og:title" content="Consoliae — software that survives contact with real users">
 <meta property="og:description" content="AI agents, ML infrastructure, applications, and the servers underneath. We build the system, then we keep it running.">
 <meta property="og:url" content="https://consoliae.com/">
+<meta property="og:image" content="https://consoliae.com/assets/photo.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Consoliae — engineering studio for production AI systems">
 <meta name="twitter:description" content="12 systems in production. Scope, architect, build, deploy, operate.">
 <link rel="stylesheet" href="_ds/industry-2b90913c-b17b-42d5-83f6-74b78f87d0bf/styles.css">
 <script src="_ds/industry-2b90913c-b17b-42d5-83f6-74b78f87d0bf/_ds_bundle.js"></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://consoliae.com/#org","name":"Consoliae","url":"https://consoliae.com/","email":"info@consoliae.com","slogan":"Intelligent systems. Simplified.","foundingDate":"2022","numberOfEmployees":19},{"@type":"ProfessionalService","name":"Consoliae","areaServed":"Worldwide","serviceType":["AI agent engineering","ML infrastructure","Application development","Backend engineering","Deployment and operations"],"parentOrganization":{"@id":"https://consoliae.com/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://consoliae.com/"},{"@type":"ListItem","position":2,"name":"Work","item":"https://consoliae.com/#work"},{"@type":"ListItem","position":3,"name":"Insights","item":"insights.dc.html"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Who owns the code?","acceptedAnswer":{"@type":"Answer","text":"You do, from the first commit. Repositories live in your organisation and we work inside it."}},{"@type":"Question","name":"What happens if we stop working together?","acceptedAnswer":{"@type":"Answer","text":"A four-week handover: runbooks, architecture decision records, credential transfer and two weeks of shadowing with whoever takes over."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://consoliae.com/#org","name":"Consoliae","url":"https://consoliae.com/","email":"info@consoliae.com","slogan":"Intelligent systems. Simplified.","foundingDate":"2022","numberOfEmployees":19},{"@type":"ProfessionalService","name":"Consoliae","areaServed":"Worldwide","serviceType":["AI agent engineering","ML infrastructure","Application development","Backend engineering","Deployment and operations"],"parentOrganization":{"@id":"https://consoliae.com/#org"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://consoliae.com/"},{"@type":"ListItem","position":2,"name":"Work","item":"https://consoliae.com/#work"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Who owns the code?","acceptedAnswer":{"@type":"Answer","text":"You do, from the first commit. Repositories live in your organisation and we work inside it."}},{"@type":"Question","name":"What happens if we stop working together?","acceptedAnswer":{"@type":"Answer","text":"A four-week handover: runbooks, architecture decision records, credential transfer and two weeks of shadowing with whoever takes over."}}]}]}</script>
 <style>
 :root{
   --color-bg:#F2F2F3; --color-surface:#E9E9EA; --color-text:#1D1F20;
@@ -293,7 +302,7 @@ details[open] .pm span:last-child{transform:scaleY(0)}
 <section id="work" data-sv aria-labelledby="h-work" style="max-width:1400px;margin:0 auto;padding:clamp(56px,9vw,110px) clamp(14px,4vw,28px) 0">
   <div data-r="sechead" style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:28px">
     <h2 data-rv id="h-work" style="font-size:clamp(28px,3.4vw,42px);margin:0">Systems in production</h2>
-    <p style="margin:0;font-size:14px;color:var(--dim)">3 shipped. All still operated by us.</p>
+    <p style="margin:0;font-size:14px;color:var(--dim)">9 shipped. All still operated by us.</p>
   </div>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:1px;margin-bottom:34px">
@@ -340,6 +349,42 @@ details[open] .pm span:last-child{transform:scaleY(0)}
       <span style="font-size:13.5px;color:var(--body2)">EMR and hospital management platform with HL7, FHIR and DICOM interoperability across clinical systems.</span>
       <span style="font-size:12px;color:var(--dim);font-family:ui-monospace,Menlo,monospace">HL7 · FHIR · DICOM · Postgres</span>
       <span class="tnum" data-r="num" style="text-align:right"><span style="display:block;font-family:var(--font-heading);font-size:23px;color:var(--color-text)">Live</span><span style="font-size:11.5px;color:var(--dim)">clinical deployments</span></span>
+    </a>
+    <a role="row" data-rv data-r="row" href="https://app.aurasolveai.com" target="_blank" rel="noopener" style="display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,2.4fr) minmax(0,1.9fr) minmax(0,1fr);gap:20px;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
+      <span><span style="display:block;font-family:var(--font-heading);font-size:19px;color:var(--c-steel)">AuraSolveAI</span><span style="font-size:12.5px;color:var(--dim)">AI agents · multi-product SaaS</span></span>
+      <span style="font-size:13.5px;color:var(--body2)">Four AI-agent products — a voice front desk, interview screening, outbound calling and a CRM — behind one hub that owns identity, Stripe billing, trials and cross-product SSO.</span>
+      <span style="font-size:12px;color:var(--dim);font-family:ui-monospace,Menlo,monospace">NestJS · Next.js · FastAPI · Postgres · MongoDB · Vapi · AWS</span>
+      <span class="tnum" data-r="num" style="text-align:right"><span style="display:block;font-family:var(--font-heading);font-size:23px;color:var(--live)">4</span><span style="font-size:11.5px;color:var(--dim)">AI products on one hub</span></span>
+    </a>
+    <div role="row" data-rv data-r="row" style="display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,2.4fr) minmax(0,1.9fr) minmax(0,1fr);gap:20px;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
+      <span><span style="display:block;font-family:var(--font-heading);font-size:19px;color:var(--c-steel)">Chordline FHIR Bridge</span><span style="font-size:12.5px;color:var(--dim)">Healthcare · CMS-0057-F prior authorization</span></span>
+      <span style="font-size:13.5px;color:var(--body2)">FHIR R4 façade over a utilization-management platform, serving Da Vinci PAS 2.0.1 and US Core 6.1 resources validated with the HL7 validator, built for SMART on FHIR.</span>
+      <span style="font-size:12px;color:var(--dim);font-family:ui-monospace,Menlo,monospace">Node.js · TypeScript · FHIR R4 · Da Vinci PAS · Docker · AWS ECS</span>
+      <span class="tnum" data-r="num" style="text-align:right"><span style="display:block;font-family:var(--font-heading);font-size:23px;color:var(--live)">11</span><span style="font-size:11.5px;color:var(--dim)">FHIR resource endpoints</span></span>
+    </div>
+    <a role="row" data-rv data-r="row" href="https://shareviral.com" target="_blank" rel="noopener" style="display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,2.4fr) minmax(0,1.9fr) minmax(0,1fr);gap:20px;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
+      <span><span style="display:block;font-family:var(--font-heading);font-size:19px;color:var(--c-steel)">ShareViral</span><span style="font-size:12.5px;color:var(--dim)">Creator economy · campaigns + payouts</span></span>
+      <span style="font-size:13.5px;color:var(--body2)">Creator and brand campaign platform: Supabase backend with realtime feeds, Stripe creator payouts, and React Native creator and brand apps brought to parity with the web app.</span>
+      <span style="font-size:12px;color:var(--dim);font-family:ui-monospace,Menlo,monospace">React · React Native · NestJS · Supabase · Stripe</span>
+      <span class="tnum" data-r="num" style="text-align:right"><span style="display:block;font-family:var(--font-heading);font-size:23px;color:var(--live)">3</span><span style="font-size:11.5px;color:var(--dim)">surfaces on one backend</span></span>
+    </a>
+    <a role="row" data-rv data-r="row" href="https://kreatorslab.ai" target="_blank" rel="noopener" style="display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,2.4fr) minmax(0,1.9fr) minmax(0,1fr);gap:20px;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
+      <span><span style="display:block;font-family:var(--font-heading);font-size:19px;color:var(--c-steel)">Kreators Lab</span><span style="font-size:12.5px;color:var(--dim)">Education · AI camp for kids, Austin</span></span>
+      <span style="font-size:13.5px;color:var(--body2)">Course catalogue, enrolment and Stripe checkout with a parent dashboard and an admin calendar, on Next.js and Firebase with a callable-functions API.</span>
+      <span style="font-size:12px;color:var(--dim);font-family:ui-monospace,Menlo,monospace">Next.js · Firebase · Stripe · AWS Amplify</span>
+      <span class="tnum" data-r="num" style="text-align:right"><span style="display:block;font-family:var(--font-heading);font-size:23px;color:var(--color-text)">Live</span><span style="font-size:11.5px;color:var(--dim)">kreatorslab.ai</span></span>
+    </a>
+    <a role="row" data-rv data-r="row" href="https://uniteliving.com" target="_blank" rel="noopener" style="display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,2.4fr) minmax(0,1.9fr) minmax(0,1fr);gap:20px;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
+      <span><span style="display:block;font-family:var(--font-heading);font-size:19px;color:var(--c-steel)">Unite Living</span><span style="font-size:12.5px;color:var(--dim)">Proptech · digital tenant management, Norway</span></span>
+      <span style="font-size:13.5px;color:var(--body2)">Digital tenant management system for Norwegian landlords: listings, contracts with e-signing, deposits, rent billing and the tenant lifecycle in one cloud platform.</span>
+      <span style="font-size:12px;color:var(--dim);font-family:ui-monospace,Menlo,monospace">Web · billing · e-signing · deposits</span>
+      <span class="tnum" data-r="num" style="text-align:right"><span style="display:block;font-family:var(--font-heading);font-size:23px;color:var(--live)">NO</span><span style="font-size:11.5px;color:var(--dim)">Norwegian rental market</span></span>
+    </a>
+    <a role="row" data-rv data-r="row" href="https://www.katria.com" target="_blank" rel="noopener" style="display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,2.4fr) minmax(0,1.9fr) minmax(0,1fr);gap:20px;padding:16px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
+      <span><span style="display:block;font-family:var(--font-heading);font-size:19px;color:var(--c-steel)">Katria</span><span style="font-size:12.5px;color:var(--dim)">Hospitality · restaurant point of service, Norway</span></span>
+      <span style="font-size:13.5px;color:var(--body2)">Restaurant point-of-service platform: in-venue POS, web take-away ordering, upselling and real-time reporting for Norwegian operators.</span>
+      <span style="font-size:12px;color:var(--dim);font-family:ui-monospace,Menlo,monospace">POS · web ordering · take-away · reporting</span>
+      <span class="tnum" data-r="num" style="text-align:right"><span style="display:block;font-family:var(--font-heading);font-size:23px;color:var(--color-text)">Live</span><span style="font-size:11.5px;color:var(--dim)">katria.com</span></span>
     </a>
   </div>
 </section>
@@ -752,35 +797,6 @@ details[open] .pm span:last-child{transform:scaleY(0)}
   </div>
 </section>
 
-<section id="insights" data-sv aria-labelledby="h-ins" style="max-width:1400px;margin:0 auto;padding:clamp(56px,9vw,110px) clamp(14px,4vw,28px) 0">
-  <div data-r="sechead" style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:22px">
-    <h2 data-rv id="h-ins" style="font-size:clamp(28px,3.4vw,42px);margin:0">Insights</h2>
-    <a href="insights.dc.html" style="font-size:14px">All posts</a>
-  </div>
-  <div style="display:flex;flex-direction:column">
-    <a data-rv data-r="insight" href="post.dc.html" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,2fr) auto;gap:24px;align-items:baseline;padding:18px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
-      <span style="font-family:var(--font-heading);font-size:21px">What an agent eval suite actually contains</span>
-      <span style="font-size:13.5px;color:var(--body2)">Twelve cases, two graders, and the one regression test that catches most prompt mistakes.</span>
-      <span class="tnum" style="font-size:12.5px;color:var(--dim)">9 min</span>
-    </a>
-    <a data-rv data-r="insight" href="post.dc.html" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,2fr) auto;gap:24px;align-items:baseline;padding:18px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
-      <span style="font-family:var(--font-heading);font-size:21px">Cutting GPU spend 58% without touching the model</span>
-      <span style="font-size:13.5px;color:var(--body2)">Batching, warm pools, and admitting that most requests are not urgent.</span>
-      <span class="tnum" style="font-size:12.5px;color:var(--dim)">12 min</span>
-    </a>
-    <a data-rv data-r="insight" href="post.dc.html" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,2fr) auto;gap:24px;align-items:baseline;padding:18px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
-      <span style="font-family:var(--font-heading);font-size:21px">Taking over a codebase nobody understands</span>
-      <span style="font-size:13.5px;color:var(--body2)">The first fortnight: instrument, freeze, document, then change one thing.</span>
-      <span class="tnum" style="font-size:12.5px;color:var(--dim)">7 min</span>
-    </a>
-    <a data-rv data-r="insight" href="post.dc.html" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,2fr) auto;gap:24px;align-items:baseline;padding:18px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit" style-hover="background:rgba(65,97,127,.07)">
-      <span style="font-family:var(--font-heading);font-size:21px">Why we still put a queue in front of the model</span>
-      <span style="font-size:13.5px;color:var(--body2)">Backpressure is a product decision, not an infrastructure detail.</span>
-      <span class="tnum" style="font-size:12.5px;color:var(--dim)">6 min</span>
-    </a>
-  </div>
-</section>
-
 <section id="faq" data-sv aria-labelledby="h-faq" style="max-width:1400px;margin:0 auto;padding:clamp(56px,9vw,110px) clamp(14px,4vw,28px) 0">
   <div style="border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:8px">
     <h2 data-rv id="h-faq" style="font-size:clamp(28px,3.4vw,42px);margin:0">Questions buyers actually ask</h2>
@@ -850,7 +866,7 @@ details[open] .pm span:last-child{transform:scaleY(0)}
         <div>
           <p style="margin:0 0 8px;font-family:var(--font-heading);font-size:26px;color:var(--live-on)">Received.</p>
           <p style="margin:0 0 14px;font-size:14.5px;line-height:1.6;color:rgba(234,241,247,.84)">An engineer reads this within one working day, Monday to Friday, and replies from a real address you can answer. If you sent a scope from the estimator, it came through with it.</p>
-          <a href="thank-you.dc.html" class="btn" style="border-color:rgba(234,241,247,.5);color:var(--ink-on)">What happens next</a>
+          <sc-if value="{{ sentByMail }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:13px;line-height:1.6;color:var(--dim-on)">Your mail app should have opened with the message filled in. If it did not, write to info@consoliae.com directly.</p></sc-if>
         </div>
       </sc-if>
       <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
@@ -873,6 +889,9 @@ details[open] .pm span:last-child{transform:scaleY(0)}
         <button type="submit" class="btn" disabled="{{ sending }}" style="padding:11px 18px;font-size:15px;align-self:flex-start;background:var(--live-on);border-color:var(--live-on);color:#0C2019">{{ sendLabel }}</button>
         <sc-if value="{{ tooFast }}" hint-placeholder-val="{{ false }}">
           <p style="margin:0;font-size:12.5px;color:var(--load-on)">That is three submissions in a minute — give it a moment and the fourth will go through.</p>
+        </sc-if>
+        <sc-if value="{{ sendErr }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0;font-size:12.5px;color:var(--load-on)">That did not send. It is our side, not yours — try again, or email <a href="mailto:info@consoliae.com" style="color:var(--ink-on)">info@consoliae.com</a>.</p>
         </sc-if>
         <p style="margin:0;font-size:12px;color:var(--dim-on)">No newsletter, no sequence. One reply from one person.</p>
       </sc-if>
@@ -910,17 +929,6 @@ details[open] .pm span:last-child{transform:scaleY(0)}
         <li><a href="#faq" style="text-decoration:none">FAQ</a></li>
       </ul>
     </nav>
-    <nav aria-label="Pages">
-      <h2 style="font-size:13px;color:var(--dim);margin:0 0 12px;font-family:var(--font-body);letter-spacing:.06em;text-transform:uppercase">Pages</h2>
-      <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px">
-        <li><a href="insights.dc.html" style="text-decoration:none">Insights</a></li>
-        <li><a href="case-study.dc.html" style="text-decoration:none">Case study</a></li>
-        <li><a href="careers.dc.html" style="text-decoration:none">Careers</a></li>
-        <li><a href="thank-you.dc.html" style="text-decoration:none">After you write</a></li>
-        <li><a href="legal.dc.html" style="text-decoration:none">Privacy and terms</a></li>
-        <li><a href="404.dc.html" style="text-decoration:none">404</a></li>
-      </ul>
-    </nav>
     <div>
       <h2 style="font-size:13px;color:var(--dim);margin:0 0 12px;font-family:var(--font-body);letter-spacing:.06em;text-transform:uppercase">Contact</h2>
       <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px">
@@ -933,7 +941,7 @@ details[open] .pm span:last-child{transform:scaleY(0)}
   </div>
   <div style="max-width:1400px;margin:0 auto;padding:16px clamp(14px,4vw,28px) 40px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;font-size:12.5px;color:var(--dim)">
     <span>© 2026 Consoliae. Registered in England.</span>
-    <span style="display:flex;gap:18px"><a href="legal.dc.html" style="text-decoration:none">Privacy</a><a href="legal.dc.html" style="text-decoration:none">Terms</a><a href="#top" style="text-decoration:none">Back to top</a></span>
+    <span style="display:flex;gap:18px"><a href="#top" style="text-decoration:none">Back to top</a></span>
   </div>
 </footer>
 
@@ -964,9 +972,12 @@ details[open] .pm span:last-child{transform:scaleY(0)}
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{}">
+// Contact form delivery. Set to a JSON-accepting endpoint (e.g. a Formspree form URL); empty = open the visitor's mail app with the message filled in.
+const FORM_ENDPOINT = '';
 const M0 = { edge: 12, api: 38, tools: 4, model: 210, vector: 8, p99: 340, rps: 1240, calls: 3 };
 const SYS = `You are the sales engineer for Consoliae, a 19-person remote software engineering studio, 4 years old, 12 systems in production. You build: AI agents (Claude, LangGraph, Temporal, pgvector, evals, guardrails, cost control), ML infrastructure (Ray, vLLM, model serving, drift monitoring), web and mobile applications (TypeScript, React, React Native, Swift), backend (Go, Python, Postgres, Kafka, Redis), deployment and operations (Kubernetes, Terraform, GitHub Actions, AWS), and marketing sites.
 Engagement models: fixed-scope build (8-16 weeks, milestone billed, no on-call after handover); dedicated team (2-5 engineers monthly, 3-month minimum); operate-and-maintain retainer (rolling monthly after a paid two-week audit, 15-minute Sev-1 response). Clients own all code from the first commit, in their own GitHub org. Every contract includes a four-week handover. Process: scope, architect, build, deploy, operate. Team spans UTC-5 to UTC+5:30 with at least four hours of overlap.
+Shipped work you may cite: Hello Doorstep (resident apps + dispatch backend, 70+ Texas communities); Iron Depot (heavy-equipment marketplace + financing, Next.js/Node/Stripe); Omidnetcare (EMR/hospital platform, HL7/FHIR/DICOM); AuraSolveAI (four AI-agent products — voice front desk, interview screening, outbound calling, CRM — on one hub with Cognito, Stripe and RS256 SSO; NestJS/Next.js/FastAPI/Postgres/MongoDB/Vapi/AWS); Chordline FHIR Bridge (FHIR R4 façade for CMS-0057-F prior authorization, Da Vinci PAS 2.0.1 + US Core 6.1, Node/TypeScript); ShareViral (creator campaign platform, Supabase + Stripe payouts + React Native apps); Kreators Lab (AI camp for kids, Next.js + Firebase + Stripe); Unite Living (Norwegian digital tenant management system: listings, e-signed contracts, deposits, rent billing); Katria (Norwegian restaurant point-of-service platform: POS, web take-away ordering, reporting).
 Never quote prices or day rates — say pricing is set per engagement after the two-week scope, and point people to the estimator for effort in engineer-weeks. Be direct, concrete and technical. Short answers, 2-4 sentences, no bullet lists unless asked, no marketing adjectives. If something is outside what Consoliae does (design-led brand work, two-week widgets, staffing a single lone engineer), say so and suggest what they should do instead. If they are ready, tell them to email info@consoliae.com or use the form.`;
 
 class Component extends DCLogic {
@@ -976,12 +987,13 @@ class Component extends DCLogic {
     palette: false, pq: '', palIdx: 0,
     chat: [], chatInput: '', botBusy: false, botErr: null, reveal: '',
     est: { type: 'a', web: true, ios: false, and: false, api: true, ai: 'c', inf: 'c', weeks: 14 },
-    form: { name: '', mail: '', msg: '', hp: '' }, touched: {}, sending: false, sent: false, tooFast: false, stamps: []
+    form: { name: '', mail: '', msg: '', hp: '' }, touched: {}, sending: false, sent: false, sentByMail: false, sendErr: false, tooFast: false, stamps: [],
+    botOffline: false
   };
 
   componentDidMount() {
     this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    this.setState({ reduced: this.reduced });
+    this.setState({ reduced: this.reduced, botOffline: !(window.claude && typeof window.claude.complete === 'function') });
     this.mqNarrow = matchMedia('(max-width:779px)');
     this.mqCompact = matchMedia('(max-width:1009px)');
     this.onResize = () => {
@@ -1022,7 +1034,7 @@ class Component extends DCLogic {
           pp = Math.min(1, Math.max(0, (innerHeight * 0.85 - r.top) / Math.max(1, r.height * 0.75)));
         }
       }
-      const ids = ['capabilities', 'work', 'process', 'stack', 'fit', 'ask', 'estimator', 'compare', 'engagements', 'clients', 'reach', 'insights', 'faq', 'contact'];
+      const ids = ['capabilities', 'work', 'process', 'stack', 'fit', 'ask', 'estimator', 'compare', 'engagements', 'clients', 'reach', 'faq', 'contact'];
       let active = '';
       for (const id of ids) {
         const s = document.getElementById(id);
@@ -1154,8 +1166,7 @@ class Component extends DCLogic {
     const j = (v, d) => Math.max(1, v + Math.round((Math.random() - 0.5) * d));
     this.idle = setInterval(() => {
       this.setState(s => ({
-        m: { ...s.m, edge: j(M0.edge, 4), api: j(M0.api, 6), model: j(M0.model, 24), vector: j(M0.vector, 3), p99: j(M0.p99, 30), rps: j(M0.rps, 90) },
-        live: { ...s.live, deploys: s.live.deploys + (Math.random() > 0.75 ? 1 : 0) }
+        m: { ...s.m, edge: j(M0.edge, 4), api: j(M0.api, 6), model: j(M0.model, 24), vector: j(M0.vector, 3), p99: j(M0.p99, 30), rps: j(M0.rps, 90) }
       }));
     }, 3600);
   }
@@ -1181,7 +1192,6 @@ class Component extends DCLogic {
       { label: 'Engagement models', hint: 'section', run: go('engagements') },
       { label: 'Who is on call at 3am', hint: 'faq', run: go('faq') },
       { label: 'Where the systems run', hint: 'map', run: go('reach') },
-      { label: 'Insights', hint: 'page', run: () => { location.href = 'insights.dc.html'; } },
       { label: 'Start a project', hint: 'action', run: go('contact') },
       { label: 'Copy info@consoliae.com', hint: 'action', run: () => { navigator.clipboard && navigator.clipboard.writeText('info@consoliae.com'); this.setState({ palette: false }); } }
     ];
@@ -1234,6 +1244,10 @@ class Component extends DCLogic {
   async ask(text) {
     if (!text || this.state.botBusy) return;
     this.last = text;
+    if (this.state.botOffline) {
+      this.setState({ botErr: { title: 'The assistant is not connected on this host', body: 'It runs only where the Claude runtime is available. Email info@consoliae.com with the same question — an engineer answers within one working day.' } });
+      return;
+    }
     this.push('user', text);
     this.setState({ chatInput: '', botBusy: true, botErr: null });
     setTimeout(() => this.scrollLog(), 40);
@@ -1383,8 +1397,8 @@ class Component extends DCLogic {
       botBusy: s.botBusy, botError: !!s.botErr,
       errTitle: s.botErr ? s.botErr.title : '', errBody: s.botErr ? s.botErr.body : '',
       showChips: lastIsBot && !s.botBusy,
-      botDot: s.botErr ? 'var(--load)' : s.botBusy ? 'var(--load)' : 'var(--live)',
-      botStatus: s.botErr ? 'error' : s.botBusy ? 'thinking' : 'ready',
+      botDot: s.botErr || s.botOffline ? 'var(--load)' : s.botBusy ? 'var(--load)' : 'var(--live)',
+      botStatus: s.botOffline ? 'offline' : s.botErr ? 'error' : s.botBusy ? 'thinking' : 'ready',
       logRef: (el) => { this.log = el; },
       chatInput: s.chatInput,
       setChatInput: (e) => this.setState({ chatInput: e.target.value }),
@@ -1424,7 +1438,7 @@ class Component extends DCLogic {
       setName: setF('name'), setMail: setF('mail'), setMsg: setF('msg'), setHp: setF('hp'),
       blurName: blur('name'), blurMail: blur('mail'), blurMsg: blur('msg'),
       errName: !!(s.touched.name && v.name), errMail: !!(s.touched.mail && v.mail), errMsg: !!(s.touched.msg && v.msg),
-      sent: s.sent, notSent: !s.sent, sending: s.sending, tooFast: s.tooFast,
+      sent: s.sent, notSent: !s.sent, sending: s.sending, tooFast: s.tooFast, sendErr: s.sendErr, sentByMail: s.sentByMail,
       sendLabel: s.sending ? 'Sending…' : 'Send it',
       submitForm: (e) => {
         e.preventDefault();
@@ -1437,8 +1451,17 @@ class Component extends DCLogic {
         if (s.form.hp) return;
         const now = Date.now(), recent = [...s.stamps, now].filter(t => now - t < 60000);
         if (recent.length > 3) { this.setState({ tooFast: true, stamps: recent }); return; }
-        this.setState({ sending: true, tooFast: false, stamps: recent });
-        setTimeout(() => this.setState({ sending: false, sent: true }), 700);
+        this.setState({ sending: true, tooFast: false, sendErr: false, stamps: recent });
+        const f = s.form, name = f.name.trim(), mail = f.mail.trim(), msg = f.msg.trim();
+        if (!FORM_ENDPOINT) {
+          location.href = 'mailto:info@consoliae.com?subject=' + encodeURIComponent('Project enquiry from ' + name) +
+            '&body=' + encodeURIComponent('Name: ' + name + '\nEmail: ' + mail + '\n\n' + msg);
+          this.setState({ sending: false, sent: true, sentByMail: true });
+          return;
+        }
+        fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ name, email: mail, message: msg }) })
+          .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); this.setState({ sending: false, sent: true }); })
+          .catch(() => this.setState({ sending: false, sendErr: true }));
       }
     };
   }

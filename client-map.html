@@ -95,6 +95,8 @@ document.getElementById('count').textContent =
   total + ' systems · ' + Object.keys(CLIENTS).length + ' countries · data resident in-region';
 
 const wrap = document.getElementById('wrap');
+const mapFail = () => { wrap.innerHTML = '<p style="margin:0;padding:24px;font-size:14px;color:var(--dim)">The map could not load. The country list below has the same information.</p>'; };
+if (!window.d3 || !window.topojson) { mapFail(); throw new Error('map libraries did not load'); }
 const svg = d3.select('#wrap').append('svg').attr('aria-label',
   'World map. Countries running Consoliae systems: ' +
   Object.values(CLIENTS).map(c => c.short + ' (' + c.n + ')').join(', ') + '.');
@@ -109,7 +111,7 @@ const gLand = svg.append('g'), gGlow = svg.append('g'), gClient = svg.append('g'
       gIn = svg.append('g').attr('clip-path', 'url(#inset)'), gInLbl = svg.append('g'),
       gFrame = svg.append('g');
 
-d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').then(topo => {
+d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json').catch(() => { mapFail(); throw new Error('world atlas did not load'); }).then(topo => {
   const all = topojson.feature(topo, topo.objects.countries).features
     .filter(f => f.properties.name !== 'Antarctica');
   const fc = { type: 'FeatureCollection', features: all };
