@@ -14,7 +14,6 @@ import Reach from "@/components/Reach";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import MobileFAB from "@/components/MobileFAB";
 
 export default function Home() {
   return (
@@ -37,7 +36,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-      <MobileFAB />
     </>
   );
 }
