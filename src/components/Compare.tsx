@@ -24,6 +24,7 @@ export default function Compare() {
       }}
     >
       <div
+        className="sec-head"
         style={{
           display: "flex",
           alignItems: "baseline",

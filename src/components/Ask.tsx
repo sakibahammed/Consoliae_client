@@ -55,6 +55,7 @@ export default function Ask() {
       }}
     >
       <div
+        className="sec-head"
         style={{
           display: "flex",
           alignItems: "baseline",

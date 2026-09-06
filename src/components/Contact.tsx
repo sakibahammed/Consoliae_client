@@ -1,13 +1,20 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
+
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+type Status = "idle" | "sending" | "sent-via-emailjs" | "sent-via-mailto" | "error";
 
 export default function Contact() {
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
   const [msg, setMsg] = useState("");
   const [hp, setHp] = useState("");
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<{ name?: boolean; mail?: boolean; msg?: boolean }>({});
 
   const validate = () => {
@@ -19,15 +26,46 @@ export default function Contact() {
     return Object.keys(e).length === 0;
   };
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (hp) return;
-    if (!validate()) return;
-    const body = encodeURIComponent(`From: ${name}\n\n${msg}`);
+  const openMailto = () => {
+    const body = encodeURIComponent(`From: ${name} <${mail}>\n\n${msg}`);
     const subject = encodeURIComponent(`Consoliae — ${name}`);
     window.location.href = `mailto:info@consoliae.com?subject=${subject}&body=${body}`;
-    setSent(true);
+    setStatus("sent-via-mailto");
   };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (hp) return; // honeypot
+    if (!validate()) return;
+
+    // If EmailJS is not configured, fall back to mailto.
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+      openMailto();
+      return;
+    }
+
+    setStatus("sending");
+    try {
+      await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        {
+          from_name: name,
+          from_email: mail,
+          reply_to: mail,
+          message: msg,
+        },
+        { publicKey: PUBLIC_KEY }
+      );
+      setStatus("sent-via-emailjs");
+    } catch (err) {
+      console.error("EmailJS send failed:", err);
+      setStatus("error");
+    }
+  };
+
+  const sent = status === "sent-via-emailjs" || status === "sent-via-mailto";
+  const sending = status === "sending";
 
   return (
     <section
@@ -123,8 +161,28 @@ export default function Contact() {
                 Received.
               </p>
               <p style={{ margin: "0 0 14px", fontSize: 14.5, lineHeight: 1.6, color: "rgba(234,241,247,.84)" }}>
-                Your mail app should have opened with the message filled in. If it did not, write to info@consoliae.com directly.
+                {status === "sent-via-emailjs"
+                  ? "An engineer reads this within one working day, Monday to Friday, and replies from a real address you can answer."
+                  : "Your mail app should have opened with the message filled in. If it did not, write to info@consoliae.com directly."}
               </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setName("");
+                  setMail("");
+                  setMsg("");
+                  setStatus("idle");
+                }}
+                className="btn btn-secondary"
+                style={{
+                  padding: "8px 14px",
+                  fontSize: 13,
+                  color: "var(--ink-on)",
+                  borderColor: "rgba(234,241,247,.32)",
+                }}
+              >
+                Send another
+              </button>
             </div>
           ) : (
             <>
@@ -139,6 +197,7 @@ export default function Contact() {
                   onChange={(e) => setName(e.target.value)}
                   aria-invalid={errors.name || undefined}
                   autoComplete="name"
+                  disabled={sending}
                   style={{ width: "100%" }}
                 />
                 {errors.name && (
@@ -159,6 +218,7 @@ export default function Contact() {
                   onChange={(e) => setMail(e.target.value)}
                   aria-invalid={errors.mail || undefined}
                   autoComplete="email"
+                  disabled={sending}
                   style={{ width: "100%" }}
                 />
                 {errors.mail && (
@@ -177,6 +237,7 @@ export default function Contact() {
                   value={msg}
                   onChange={(e) => setMsg(e.target.value)}
                   aria-invalid={errors.msg || undefined}
+                  disabled={sending}
                   style={{ minHeight: 120, width: "100%" }}
                 />
                 {errors.msg && (
@@ -197,6 +258,7 @@ export default function Contact() {
               <button
                 type="submit"
                 className="btn"
+                disabled={sending}
                 style={{
                   padding: "11px 18px",
                   fontSize: 15,
@@ -204,10 +266,20 @@ export default function Contact() {
                   background: "var(--live-on)",
                   borderColor: "var(--live-on)",
                   color: "#0C2019",
+                  opacity: sending ? 0.6 : 1,
                 }}
               >
-                Send
+                {sending ? "Sending…" : "Send"}
               </button>
+              {status === "error" && (
+                <p style={{ margin: 0, fontSize: 12.5, color: "var(--load-on)" }}>
+                  That did not send. It is our side, not yours — try again, or email{" "}
+                  <a href="mailto:info@consoliae.com" style={{ color: "var(--ink-on)" }}>
+                    info@consoliae.com
+                  </a>
+                  .
+                </p>
+              )}
               <p style={{ margin: 0, fontSize: 12, color: "var(--dim-on)" }}>
                 No newsletter, no sequence. One reply from one person.
               </p>

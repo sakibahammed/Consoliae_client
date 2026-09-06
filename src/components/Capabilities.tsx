@@ -110,6 +110,7 @@ export default function Capabilities() {
       }}
     >
       <div
+        className="sec-head"
         style={{
           display: "flex",
           alignItems: "baseline",
@@ -142,6 +143,7 @@ export default function Capabilities() {
             key={c.title}
             as="article"
             delay={i * 0.05}
+            className={c.wide ? "cap-wide" : undefined}
             style={{
               borderTop: `3px solid ${c.color}`,
               background: c.tint,

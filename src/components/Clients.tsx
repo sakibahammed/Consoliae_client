@@ -3,26 +3,23 @@ import Reveal from "./Reveal";
 const QUOTES = [
   {
     quote:
-      "“They spent the first two weeks telling us which half of our plan was wrong. That conversation saved us a quarter.”",
-    who: "Ines Karlsson",
-    role: "CTO, Meridian",
-    metric: "−74% manual review time",
+      "“Five nights a week, doorstep collection across seventy-plus Texas communities. Resident apps on iOS and Android, dispatch backend in the middle.”",
+    role: "Operations, Hello Doorstep",
+    metric: "70+ Texas communities served",
     tint: "var(--t-teal)",
   },
   {
     quote:
-      "“Our dispatch queue used to page someone every Monday. It has not paged anyone since March.”",
-    who: "Tom Aldiss",
-    role: "VP Engineering, Halyard",
-    metric: "p99 4.1 s → 340 ms",
+      "“EMR and hospital management in one platform, with HL7, FHIR and DICOM interoperability across our clinical systems.”",
+    role: "Clinical operations, Omidnetcare",
+    metric: "Live clinical deployments",
     tint: "var(--t-sand)",
   },
   {
     quote:
-      "“The eval suite is the thing I did not know to ask for. We ship prompt changes on a Friday now.”",
-    who: "Priya Raghunathan",
-    role: "Founder, Ravel",
-    metric: "61% first-touch resolution",
+      "“Listings, e-signed contracts, deposits and rent billing on one system. Built for the Norwegian rental market.”",
+    role: "Product, Unite Living",
+    metric: "Norwegian rental market",
     tint: "var(--t-plum)",
   },
 ];
@@ -65,7 +62,7 @@ export default function Clients() {
       >
         {QUOTES.map((q, i) => (
           <Reveal
-            key={q.who}
+            key={q.role}
             as="article"
             delay={i * 0.06}
             style={{
@@ -83,8 +80,7 @@ export default function Clients() {
               {q.quote}
             </p>
             <footer style={{ marginTop: "auto", fontSize: 13, color: "var(--dim)" }}>
-              <span style={{ display: "block", color: "var(--color-text)" }}>{q.who}</span>
-              {q.role}
+              <span style={{ display: "block", color: "var(--color-text)" }}>{q.role}</span>
               <span className="tnum" style={{ display: "block", marginTop: 8, color: "var(--live)" }}>
                 {q.metric}
               </span>

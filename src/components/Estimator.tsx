@@ -111,6 +111,7 @@ export default function Estimator() {
       }}
     >
       <div
+        className="sec-head"
         style={{
           display: "flex",
           alignItems: "baseline",
@@ -286,7 +287,7 @@ export default function Estimator() {
               Indicative effort
             </p>
             <p
-              className="tnum"
+              className="tnum est-metric"
               style={{
                 margin: "6px 0 0",
                 fontFamily: "var(--font-heading)",

@@ -233,6 +233,7 @@ export default function Work() {
       }}
     >
       <div
+        className="sec-head"
         style={{
           display: "flex",
           alignItems: "baseline",
@@ -257,8 +258,9 @@ export default function Work() {
       <div role="table" aria-label="Shipped work" style={{ borderTop: "1px solid var(--line2)" }}>
         <div
           role="row"
-          className="hidden md:grid"
+          className="work-row-head"
           style={{
+            display: "grid",
             gridTemplateColumns:
               "minmax(0,2.1fr) minmax(0,2.4fr) minmax(0,1.9fr) minmax(0,1fr)",
             gap: 20,
