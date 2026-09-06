@@ -326,7 +326,6 @@ input.input:-webkit-autofill:focus {
 
 /* Hero: reduce top padding on mobile */
 @media (max-width: 640px) {
-  body { padding-bottom: 86px; }
   h1 { font-size: clamp(31px, 9vw, 44px) !important; }
 }
 
