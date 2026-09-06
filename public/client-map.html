@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Where the systems run</title>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<style>
+  :root {
+    --ink:#F3F3F1; --ink2:#EBEBE8;
+    --steel:#41617F; --live:#1F7A55;
+    --dim:#5B6367; --line:rgba(29,31,32,.16); --line2:rgba(29,31,32,.32);
+    --paper:#1D1F20; --body2:#474C50;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --font-heading: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  html, body { margin:0; background:var(--ink); color:var(--paper); font-family:var(--font-body); overflow:hidden; }
+  #wrap { position:relative; width:100%; height:100vh; }
+  svg { display:block; width:100%; height:100%; }
+  .land { fill:#DCE0E4; stroke:rgba(29,31,32,.13); stroke-width:.5; }
+  .client { fill:rgba(31,122,85,.22); stroke:var(--live); stroke-width:.9; transition:fill .15s; }
+  .client.on { fill:rgba(31,122,85,.46); }
+  .halo { fill:var(--live); opacity:.18; filter:url(#glow); }
+  .dot { fill:var(--live); }
+  .ring { fill:none; stroke:var(--live); stroke-width:.9; }
+  .cap { font-family:var(--font-heading); font-weight:600; font-size:14px; fill:var(--dim); letter-spacing:.04em; }
+  .lbl { font-family:var(--font-heading); font-weight:600; font-size:14px; fill:var(--paper); }
+  .num { font-size:11.5px; fill:var(--live); font-variant-numeric:tabular-nums; }
+  .lead { stroke:rgba(29,31,32,.4); stroke-width:.7; fill:none; }
+  #panel {
+    position:absolute; left:0; right:0; bottom:0; height:142px;
+    border-top:1px solid var(--line2); background:rgba(242,242,243,.96);
+    padding:12px 16px; display:flex; gap:22px; align-items:flex-start; pointer-events:none; overflow:hidden;
+  }
+  #panel .head { flex:0 0 168px; min-width:0; }
+  #panel h3 { font-family:var(--font-heading); font-weight:600; font-size:21px; margin:0; line-height:1.1; }
+  #panel .meta { font-size:12px; color:var(--live); margin:2px 0 0; font-variant-numeric:tabular-nums; }
+  #panel .rows { display:flex; gap:20px; flex:1; min-width:0; }
+  #panel .sys { flex:1; min-width:0; border-left:1px solid var(--line); padding-left:14px; }
+  #panel .nm { font-family:var(--font-heading); font-weight:600; font-size:16px; }
+  #panel .wt {
+    font-size:12px; line-height:1.4; color:var(--body2); margin:3px 0 6px;
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  #panel .st { font-size:10.5px; color:var(--dim); font-family:ui-monospace,Menlo,monospace; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #panel .mt { font-size:12.5px; color:var(--live); font-variant-numeric:tabular-nums; margin-top:4px; }
+  #panel .idle { font-size:13px; line-height:1.5; color:var(--dim); margin:0; max-width:620px; }
+  #legend { position:absolute; left:12px; top:12px; display:flex; gap:20px; align-items:center; font-size:12px; color:var(--dim); flex-wrap:wrap; }
+  #legend i { width:9px; height:9px; background:rgba(31,122,85,.5); border:1px solid var(--live); display:inline-block; margin-right:7px; vertical-align:-1px; }
+  @media (max-width:700px) {
+    #panel { height:118px; padding:10px 12px; gap:10px; flex-direction:column; }
+    #panel .head { flex:none; }
+    #panel h3 { font-size:17px; }
+    #panel .meta { font-size:11px; }
+    #panel .rows { gap:12px; overflow-x:auto; padding-bottom:4px; }
+    #panel .sys { min-width:160px; padding-left:12px; }
+    #panel .nm { font-size:14px; }
+    #panel .wt { -webkit-line-clamp:2; font-size:11.5px; }
+    #panel .st, #panel .mt { font-size:10.5px; }
+    #panel .idle { font-size:12.5px; }
+    #legend { top:8px; left:8px; gap:12px; font-size:11px; }
+    #legend span:last-child { display:none; }
+    .lbl { font-size:11px; }
+    .num { font-size:10px; }
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="panel"></div>
+  <div id="legend"><span><i></i>country with a system we built or operate</span><span id="count"></span></div>
+</div>
+<script>
+const CLIENTS = {
+  "United States of America": { short: "United States", lon: -98, lat: 39, ox: -4, oy: 26, sys: [
+    { name: "Hello Doorstep", what: "iOS and Android resident apps and the dispatch backend for five-nights-a-week doorstep collection.", stack: "iOS · Android · Node.js · Postgres", metric: "70+ TX communities served" },
+    { name: "AuraSolveAI", what: "Four AI-agent products behind one hub — identity, Stripe billing, cross-product SSO.", stack: "NestJS · Next.js · FastAPI · Vapi · AWS", metric: "4 products on one hub" },
+    { name: "Kreators Lab", what: "AI camp for kids: course catalogue, enrolment and Stripe checkout with a parent dashboard.", stack: "Next.js · Firebase · Stripe · Amplify", metric: "Live at kreatorslab.ai" },
+    { name: "Chordline FHIR Bridge", what: "FHIR R4 façade for CMS-0057-F prior authorization; Da Vinci PAS 2.0.1 + US Core 6.1.", stack: "Node.js · TypeScript · Docker · AWS ECS", metric: "11 FHIR resource endpoints" }
+  ] },
+  "Canada": { short: "Canada", lon: -106, lat: 58, ox: 10, oy: 8, sys: [
+    { name: "Iron Depot", what: "Listings platform and financing pre-approval flow for Canada's largest used heavy equipment marketplace.", stack: "Next.js · Node.js · Postgres · Stripe", metric: "$60M+ financed through platform" }
+  ] },
+  "United Kingdom": { short: "United Kingdom", lon: -2, lat: 54, sys: [
+    { name: "ShareViral", what: "Creator campaign platform: Supabase realtime, Stripe payouts, React Native creator and brand apps.", stack: "React · React Native · NestJS · Supabase · Stripe", metric: "3 surfaces on one backend" }
+  ] },
+  "Norway": { short: "Norway", lon: 9, lat: 61, sys: [
+    { name: "Unite Living", what: "Digital tenant management for Norwegian landlords: listings, e-signed contracts, deposits, rent billing.", stack: "Web · billing · e-signing · deposits", metric: "NO — Norwegian rental market" },
+    { name: "Katria", what: "Restaurant point of service platform: in-venue POS, web take-away ordering, real-time reporting.", stack: "POS · web ordering · take-away · reporting", metric: "Live at katria.com" }
+  ] },
+  "Bangladesh": { short: "Bangladesh", lon: 90.3, lat: 23.7, ox: 10, oy: 22, sys: [
+    { name: "Omidnetcare", what: "EMR and hospital management with HL7, FHIR and DICOM interoperability across clinical systems.", stack: "HL7 · FHIR · DICOM · Postgres", metric: "Live clinical deployments" }
+  ] }
+};
+Object.values(CLIENTS).forEach(function(c){ c.n = c.sys.length; });
+var total = Object.values(CLIENTS).reduce(function(a,c){ return a + c.n; }, 0);
+document.getElementById('count').textContent = total + ' systems · ' + Object.keys(CLIENTS).length + ' countries · data resident in-region';
+
+var wrap = document.getElementById('wrap');
+var panel = document.getElementById('panel');
+var IDLE = '<div class="head"><h3>Where the systems run</h3><p class="meta">' + total + ' systems · ' + Object.keys(CLIENTS).length + ' countries</p></div><div class="rows"><p class="idle">Tap or hover a lit country to see the systems we built and deployed there — what each one does, what it runs on, and the number that mattered.</p></div>';
+panel.innerHTML = IDLE;
+
+function mapFail(){
+  wrap.querySelector('svg')?.remove();
+  var div = document.createElement('div');
+  div.style.cssText = 'padding:24px;font-size:14px;color:var(--dim);max-width:640px';
+  div.innerHTML = '<p style="margin:0 0 8px;font-family:var(--font-heading);font-size:18px;color:var(--paper)">Map could not load.</p><p style="margin:0">The country list below has the same information: ' + Object.values(CLIENTS).map(function(c){ return c.short + ' (' + c.n + ')'; }).join(', ') + '.</p>';
+  wrap.insertBefore(div, panel);
+}
+
+if (!window.d3 || !window.topojson) { mapFail(); }
+else {
+  var svg = d3.select('#wrap').append('svg')
+    .attr('aria-label', 'World map. Countries with systems we built and operate: ' +
+      Object.values(CLIENTS).map(function(c){ return c.short + ' (' + c.n + ')'; }).join(', ') + '.');
+  var defs = svg.append('defs');
+  defs.append('filter').attr('id', 'glow')
+    .attr('x', '-140%').attr('y', '-140%').attr('width', '380%').attr('height', '380%')
+    .append('feGaussianBlur').attr('stdDeviation', 8);
+  var gLand = svg.append('g'), gGlow = svg.append('g'), gClient = svg.append('g'),
+      gPts = svg.append('g'), gLbl = svg.append('g');
+
+  d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+    .then(function(topo){
+      var all = topojson.feature(topo, topo.objects.countries).features
+        .filter(function(f){ return f.properties.name !== 'Antarctica'; });
+      var fc = { type: 'FeatureCollection', features: all };
+
+      function draw(){
+        var w = wrap.clientWidth, h = wrap.clientHeight;
+        var reserve = 156;
+        svg.attr('viewBox', [0, 0, w, h]);
+        var proj = d3.geoNaturalEarth1().fitExtent([[10, 20], [w - 10, Math.max(120, h - reserve)]], fc);
+        var path = d3.geoPath(proj);
+
+        gLand.selectAll('path').data(all).join('path').attr('class', 'land').attr('d', path);
+        var cl = all.filter(function(f){ return CLIENTS[f.properties.name]; });
+        gGlow.selectAll('path').data(cl).join('path').attr('class', 'halo').attr('d', path);
+        gClient.selectAll('path').data(cl).join('path').attr('class', 'client').attr('d', path)
+          .style('pointer-events', 'auto')
+          .on('mousemove', function(ev, f){ hi(f.properties.name); })
+          .on('mouseleave', function(){ hi(null); })
+          .on('touchstart', function(ev, f){ ev.preventDefault(); hi(f.properties.name); })
+          .on('click', function(ev, f){ hi(f.properties.name); });
+
+        var pts = Object.entries(CLIENTS).map(function(e){
+          var name = e[0], d = e[1];
+          return Object.assign({ name: name, p: proj([d.lon, d.lat]) }, d);
+        });
+        var g = gPts.selectAll('g').data(pts, function(d){ return d.name; })
+          .join('g')
+          .attr('transform', function(d){ return 'translate(' + d.p + ')'; })
+          .style('pointer-events', 'auto')
+          .style('cursor', 'pointer')
+          .on('mousemove', function(ev, d){ hi(d.name); })
+          .on('mouseleave', function(){ hi(null); })
+          .on('touchstart', function(ev, d){ ev.preventDefault(); hi(d.name); })
+          .on('click', function(ev, d){ hi(d.name); });
+        g.selectAll('circle.dot').data(function(d){ return [d]; }).join('circle')
+          .attr('class', 'dot')
+          .attr('r', function(d){ return 2.4 + Math.min(2, d.n * 0.6); });
+
+        var lg = gLbl.selectAll('g').data(pts, function(d){ return d.name; })
+          .join('g')
+          .attr('transform', function(d){ return 'translate(' + (d.p[0] + (d.ox || 8)) + ',' + (d.p[1] + (d.oy || -4)) + ')'; });
+        lg.selectAll('text.lbl').data(function(d){ return [d]; }).join('text').attr('class', 'lbl').text(function(d){ return d.short; });
+        lg.selectAll('text.num').data(function(d){ return [d]; }).join('text').attr('class', 'num').attr('dy', 15)
+          .text(function(d){ return d.n + (d.n > 1 ? ' systems' : ' system'); });
+      }
+      draw();
+      addEventListener('resize', draw);
+    })
+    .catch(mapFail);
+}
+
+function hi(name){
+  d3.selectAll('.client').classed('on', function(f){ return !!name && f.properties.name === name; });
+  var d = name && CLIENTS[name];
+  if (!d) { panel.innerHTML = IDLE; return; }
+  panel.innerHTML = '<div class="head"><h3>' + d.short + '</h3><p class="meta">' + d.n +
+    (d.n > 1 ? ' systems built and deployed' : ' system built and deployed') + '</p></div><div class="rows">' +
+    d.sys.map(function(s){ return '<div class="sys"><div class="nm">' + s.name +
+      '</div><p class="wt">' + s.what + '</p><div class="st">' + s.stack + '</div><div class="mt">' + s.metric + '</div></div>'; }).join('') + '</div>';
+}
+</script>
+</body>
+</html>
